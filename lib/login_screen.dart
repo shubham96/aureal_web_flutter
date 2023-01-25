@@ -1,8 +1,13 @@
+// import 'dart:js';
+
+ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -72,23 +77,73 @@ class DesktopLogin extends StatelessWidget {
     );
   }
 
-  Widget loginWithHiveSigner(){
-    return Container(
-      decoration: const BoxDecoration(
-          color: Color(0xffe31337)
-      ),
+  Widget loginWithHiveSigner(BuildContext context){
+    return GestureDetector(
+      onTap: ()async{
+        await showDialog(context: context, builder: (context){
+          // return Dialog(
+          //   child: WebView(
+          //     // gestureRecognizers: Set()
+          //     //   ..add(
+          //     //     Factory<VerticalDragGestureRecognizer>(
+          //     //           () => VerticalDragGestureRecognizer(),
+          //     //     ), // or null
+          //     //   ),
+          //     javascriptMode: JavascriptMode.unrestricted,
+          //     initialUrl:
+          //     'https://hivesigner.com/oauth2/authorize?client_id=aureal&redirect_uri=%3Dhttp%253A%252F%252Flocalhost%253A3000%26&response_type=code&scope=offline,comment,vote,comment_option,custom_json',
+          //     onPageStarted: (url) async {
+          //       SharedPreferences prefs =
+          //       await SharedPreferences.getInstance();
+          //
+          //       var uri = Uri.parse(url.toString());
+          //       uri.queryParameters.forEach((key, value) {
+          //         if (key == 'access_token' ||
+          //             key == 'username' ||
+          //             key == 'code') {
+          //           if (key == 'username' &&
+          //               prefs.getString('access_token') != null &&
+          //               prefs.getString('code') != null) {
+          //             prefs.setString('HiveUserName', value);
+          //
+          //             print(prefs.getString('code'));
+          //
+          //
+          //           } else {
+          //             prefs.setString('$key', value);
+          //           }
+          //
+          //           print(prefs.getString(key));
+          //           if (prefs.getString('code') != null) {
+          //             print(
+          //                 'this is the code motherfucker: ${prefs.getString('code')}');
+          //           }
+          //           // hiveAuth();
+          //         }
+          //       });
+          //     },
+          //   ),
+          // );
+          return Container();
+        });
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+            color: Color(0xffe31337)
+        ),
 
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset('assets/hivesigner.png', gaplessPlayback: true, width: 18,),
-              const SizedBox(width: 20,),
-              const Text("Login with HiveSigner", style: TextStyle(color: Colors.white),),
-            ],
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset('assets/hivesigner.png', gaplessPlayback: true, width: 18,),
+                const SizedBox(width: 20,),
+                const Text("Login with HiveSigner", style: TextStyle(color: Colors.white),),
+              ],
+            ),
           ),
         ),
       ),
@@ -98,8 +153,12 @@ class DesktopLogin extends StatelessWidget {
   Widget loginWithUnstoppable(){
 
     void getHttp() async {
+
+      Dio dio = Dio();
+      CancelToken cancel = CancelToken();
+
       try {
-        var response = await Dio().post('http://localhost:2017/login');
+        var response = await dio.post('http://localhost:2017/login', cancelToken: cancel);
         print(response);
       } catch (e) {
         print(e);
@@ -149,7 +208,7 @@ class DesktopLogin extends StatelessWidget {
                 children: [
                   loginWithGoogle(),
                   SizedBox(height: 10,),
-                  loginWithHiveSigner(),
+                  loginWithHiveSigner(context),
                   SizedBox(height: 10,),
                   loginWithUnstoppable()
 
