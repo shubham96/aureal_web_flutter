@@ -1,14 +1,10 @@
-// import 'dart:js';
-
- import 'package:flutter/gestures.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -80,7 +76,7 @@ class DesktopLogin extends StatelessWidget {
 
   Widget loginWithHiveSigner(BuildContext context){
     return GestureDetector(
-      onTap: ()async{
+      onTap: () async {
         // await showDialog(context: context, builder: (context){
         //   // return Dialog(
         //   //   child: WebView(
@@ -127,8 +123,7 @@ class DesktopLogin extends StatelessWidget {
         //   // );
         //   return Container();
         // });
-        final result = await FlutterWebAuth.authenticate(url: "https://hivesigner.com/oauth2/authorize?client_id=aureal&redirect_uri=%3Dhttp%253A%252F%252Flocalhost%253A3000%26&response_type=code&scope=offline,comment,vote,comment_option,custom_json", callbackUrlScheme: "hivesigner");
-        print(result);
+        var result = await FlutterWebAuth.authenticate(url: "https://hivesigner.com/oauth2/authorize?client_id=aureal&redirect_uri=%3Dhttp%253A%252F%252Flocalhost%253A3000%26&response_type=code&scope=offline,comment,vote,comment_option,custom_json", callbackUrlScheme: "hivesigner");
       },
       child: Container(
         decoration: const BoxDecoration(
