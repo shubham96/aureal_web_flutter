@@ -137,8 +137,8 @@ class DesktopLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(flex: 3,child: Container(color: Colors.blue, )),
-        Expanded(flex: 2,child: Container(color: Color(0xff191919),
+        Expanded(flex: 3,child: Container(decoration: BoxDecoration(image: DecorationImage(image: Image.asset('assets/backgroundlogin.png').image, fit: BoxFit.cover)), )),
+        Expanded(flex: 2,child: Container(color: Colors.black,
         child: Row(
           children: [
             Expanded(flex: 1,child: Container()),
